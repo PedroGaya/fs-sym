@@ -2,7 +2,7 @@
 import os
 import time
 from typing import Dict, Optional
-from metadata import FileType, Inode, Superblock
+from .metadata import FileType, Inode, Superblock
 
 class FileSystem:
   def __init__(self):
@@ -201,6 +201,7 @@ class FileSystem:
     ino = parent_inode.data[filename] # type: ignore
     inode = self.inodes[ino]
     
+    parent_inode.nlink -= 1
     inode.nlink -= 1
     if inode.nlink == 0:
         del self.inodes[ino]
